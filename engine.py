@@ -1,4 +1,3 @@
-from transformers import pipeline
 
 
 class engine:
@@ -8,20 +7,19 @@ class engine:
     hypothesis_template_folder = "folder {}"
     hypothesis_template_timer = "timer {}"
 
-    def __init__(self, sentence: str):
+    def __init__(self, sentence: str, classifier):
         self.sentence = sentence
-        self.classifier = pipeline("zero-shot-classification")
+        self.classifier = classifier
 
     def get_command(self):
         score = self.classifier(self.sentence, self.candidate_labels)
-        print(score)
         mapped = dict(zip(score["labels"], score["scores"]))
         command = max(mapped, key=mapped.get)
-        print(f"command: {command}")
         return command
 
     def get_entity_id(self, entities, command):
-        hypothesis_template, entities = self.get_correct_entities(entities, command)
+        hypothesis_template, entities = self.get_correct_entities(
+            entities, command)
         names_list = [x["name"] for x in entities]
         score = self.classifier(
             self.sentence, names_list, hypothesis_template=hypothesis_template

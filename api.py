@@ -2,12 +2,14 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import json
 from flask_cors import CORS
+from transformers import pipeline
 
 from engine import engine
 
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
+classifier = pipeline("zero-shot-classification")
 
 
 class Prediction(Resource):
@@ -24,10 +26,8 @@ class Prediction(Resource):
 
     def post(self):
         data = Prediction.parser.parse_args()
-        e = engine(data["command"])
-        print(data)
+        e = engine(data["command"], classifier)
         entities = data["entities"]
-       
         command = e.get_command()
         entity = e.get_entity_id(entities, command)
         return {"command": command, "target": entity}, 200
