@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "a54ff66b-e807-4a49-ac7c-278d07ea359d",
+		"name": "Gamitude",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "make prediction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"command\": \"select project complete web dev\",\r\n    \"entities\": {\r\n        \"folders\": [{\r\n            \"dateCreated\": \"0001-01-01T00:00:00Z\",\r\n            \"description\": \"Folder for active projects\",\r\n            \"icon\": \"active\",\r\n            \"id\": \"5fd7704e633fc5a539c9a985\",\r\n            \"name\": \"Active\",\r\n            \"userId\": \"5fd7704e633fc5a539c9a983\"}],\r\n        \"projects\":[{\r\n            \"dateCreated\": \"2020-12-14T14:01:50.374Z\",\r\n            \"dayInterval\": null,\r\n            \"daysPerWeek\": null,\r\n            \"defaultTimerId\": \"5fd7704e633fc5a539c9a988\",\r\n            \"dominantStat\": \"MIND\",\r\n            \"folderId\": \"5fd7704e633fc5a539c9a985\",\r\n            \"hoursPerDay\": null,\r\n            \"id\": \"5fd7704e633fc5a539c9a989\",\r\n            \"name\": \"Your first energy project\",\r\n            \"projectType\": \"ENERGY\",\r\n            \"stats\": [\"MIND\"],\r\n            \"timeSpendBreak\": 0,\r\n            \"totalTimeSpend\": 517}],\r\n        \"timers\":[{\r\n            \"countDownInfo\": {\r\n                \"workTime\": 90,\r\n                \"breakTime\": 30,\r\n                \"overTime\": 5,\r\n                \"longerBreakTime\": null,\r\n                \"breakInterval\": null},\r\n            \"breakInterval\": null,\r\n            \"breakTime\": 30,\r\n            \"longerBreakTime\": null,\r\n            \"overTime\": 5,\r\n            \"workTime\": 90,\r\n            \"id\": \"5fd7704e633fc5a539c9a988\",\r\n            \"label\": \"90\",\r\n            \"name\": \"90/30\",\r\n            \"timerType\": \"TIMER\",\r\n            \"userId\": \"5fd7704e633fc5a539c9a983\"\r\n        }]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5666/api/predict",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5666",
+					"path": [
+						"api",
+						"predict"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

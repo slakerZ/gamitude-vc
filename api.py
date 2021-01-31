@@ -1,24 +1,32 @@
-from flask import Flask, request, jsonify
+from flask import Flask
+from flask_restful import Resource, Api, reqparse
 
-# from flask_cors import CORS
+from flask_cors import CORS
 
 from engine import engine
 
 app = Flask(__name__)
-# CORS(app)
+api = Api(app)
+CORS(app)
 
 
-@app.route("/api/predict", methods=["POST"])
-def predict():
-    try:
-        e = engine(request.json["command"])
+class Prediction(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument(
+        "command", help="Need command to recognize intentions", required=True, type=str
+    )
+    parser.add_argument(
+        "entities",
+        help="Please provide object containing projects, folders and timers lists",
+        required=True,
+    )
+
+    def post(self):
+        data = Prediction.parser.parse_args()
+        e = engine(data["command"])
         command = e.get_command()
-        entity = e.get_entity(request.json["entities"], request.json["command"])
-        return jsonify({"command": command, "target": entity})
-    except Exception as e:
-        print(e)
-        return jsonify({"result": "Model Failed"})
+        entity = e.get_entity(data["entities"], data["command"])
+        return {"command": command, "target": entity}, 200
 
 
-if __name__ == "__main__":
-    app.run("0.0.0.0", port=8000)
+api.add_resource(Prediction, "/api/predict")

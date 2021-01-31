@@ -10,6 +10,7 @@ transformers = "3.1.0"
 tensorflow = "2.4.1"
 flask = "1.1.2"
 flask_cors = "3.0.10"
+flask_restful = "^0.3.8"
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
 flake8 = "^3.8.4"
