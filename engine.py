@@ -14,21 +14,27 @@ class engine:
 
     def get_command(self):
         score = self.classifier(self.sentence, self.candidate_labels)
+        print(score)
         mapped = dict(zip(score["labels"], score["scores"]))
-        return max(mapped, key=mapped.get)
+        command = max(mapped, key=mapped.get)
+        print(f"command: {command}")
+        return command
 
-    def get_entity(self, entities, command):
+    def get_entity_id(self, entities, command):
         hypothesis_template, entities = self.get_correct_entities(entities, command)
+        names_list = [x["name"] for x in entities]
         score = self.classifier(
-            self.sentence, entities, hypothesis_template=hypothesis_template
+            self.sentence, names_list, hypothesis_template=hypothesis_template
         )
         mapped = dict(zip(score["labels"], score["scores"]))
-        return max(mapped, key=mapped.get)
+        entity_name = max(mapped, key=mapped.get)
+        f = next((x for x in entities if x["name"] == entity_name), ["error"])
+        return f["id"]
 
     def get_correct_entities(self, entities, command):
-        if command is self.candidate_labels[0]:
-            return self.hypothesis_template_project, entities["projects"]
-        elif command is self.candidate_labels[1]:
-            return self.hypothesis_template_folder, entities["folders"]
-        elif command is self.candidate_labels[2]:
-            return self.hypothesis_template_timer, entities["timers"]
+        if command == self.candidate_labels[0]:
+            return self.hypothesis_template_project, entities['projects']
+        elif command == self.candidate_labels[1]:
+            return self.hypothesis_template_folder, entities['folders']
+        elif command == self.candidate_labels[2]:
+            return self.hypothesis_template_timer, entities['timers']
