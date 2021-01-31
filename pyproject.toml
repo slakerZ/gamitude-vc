@@ -5,12 +5,14 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = "3.8.5"
+python = "^3.8.5"
 transformers = "3.1.0"
 tensorflow = "2.4.1"
 flask = "1.1.2"
 flask_cors = "3.0.10"
 [tool.poetry.dev-dependencies]
+black = "^20.8b1"
+flake8 = "^3.8.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
