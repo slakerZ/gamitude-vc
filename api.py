@@ -21,7 +21,7 @@ class Prediction(Resource):
         "entities",
         help="Please provide object containing projects, folders and timers lists",
         required=True,
-        type=dict
+        type=dict,
     )
 
     def post(self):
@@ -29,8 +29,8 @@ class Prediction(Resource):
         e = engine(data["command"], classifier)
         entities = data["entities"]
         command = e.get_command()
-        entity = e.get_entity_id(entities, command)
-        return {"command": command, "target": entity}, 200
+        entity = e.get_entity(entities, command)
+        return {"command": command, "target_id": entity["id"], "target": entity}, 200
 
 
 api.add_resource(Prediction, "/api/predict")
