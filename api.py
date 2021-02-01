@@ -4,7 +4,7 @@ import json
 from flask_cors import CORS
 from transformers import pipeline
 
-from engine import engine
+from engine import Engine
 
 app = Flask(__name__)
 api = Api(app)
@@ -26,7 +26,7 @@ class Prediction(Resource):
 
     def post(self):
         data = Prediction.parser.parse_args()
-        e = engine(data["command"], classifier)
+        e = Engine(data["command"], classifier)
         entities = data["entities"]
         command = e.get_command()
         entity = e.get_entity(entities, command)
