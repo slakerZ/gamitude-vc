@@ -1,0 +1,43 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    container_name: gamitude_mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: gamitude
+    volumes:
+      - ./repositories/gamitude-backend/db/init/init.js:/docker-entrypoint-initdb.d/init.js:ro
+  ai_api:
+    build: .
+    ports:
+      - "5666:5666"
+  gamitude_backend:
+    image: gamitude_backend
+    container_name: gamitude_backend
+    build:
+        context: ./repositories/gamitude-backend/gamitude_backend
+        dockerfile: DockerfileForCompose
+    ports:
+      - 5000:80
+    environment:
+      - 'DatabaseSettings__ConnectionString=mongodb://mongo:27017/gamitude'
+      - 'ASPNETCORE_ENVIRONMENT=Development'
+    depends_on: 
+      - mongo
+  gamitude_frontend:
+    image: gamitude_frontend
+    container_name: gamitude_frontend
+    build:
+        context: ./repositories/gamitude-web
+        dockerfile: DockerfileForCompose.yaml
+        args:
+          BROWSER_ARG: "none"
+          REACT_APP_VOICE_RECOGNITION_API_ENDPOINT: "http://localhost:5666"
+          REACT_APP_API_ENDPOINT_ARG: "http://localhost:5000"
+    ports:
+      - 3000:80
+    depends_on: 
+      - mongo
+      - gamitude_backend

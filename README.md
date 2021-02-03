@@ -23,5 +23,9 @@ Recognizing voice commands for [Gamitude](https://gamitude.rocks/ "Gamitude prod
 `poetry export -f requirements.txt --output requirements.txt`
 
 ## Docker
-
-Run docker-compose with front, back, db and vc - awaits creation
+### download other components and build docker
+```
+./clone.sh 
+docker-compose up
+```
+go to localhost:3000 register, login and have fun  
